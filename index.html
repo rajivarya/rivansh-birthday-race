@@ -13,17 +13,17 @@
         }
 
         body {
-            margin: 0;
-            overflow-x: hidden;
-            background-color: #FF0000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
-            position: relative;
             font-family: 'Bungee', cursive;
+            margin: 0;
+            padding: 0;
+            background: url('https://i.imgur.com/P40pS1c.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #FFFFFF;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
         }
 
         /* Checkered Flag Borders */
@@ -134,32 +134,9 @@
             justify-content: space-between;
         }
 
-        /* Racing Track Shape */
+        /* Remove track shape since we're using the full image as background */
         .track-shape {
-            background-color: #000000;
-            background-image: url('https://images.unsplash.com/photo-1617654112368-ac309c869557?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
-            background-blend-mode: overlay;
-            border: 5px solid #FFD700;
-            border-radius: 50px 20px 50px 20px;
-            padding: 40px;
-            margin: 60px 0;
-            position: relative;
-            min-height: 400px;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-        }
-
-        .track-shape::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 45px 15px 45px 15px;
-            z-index: 1;
+            display: none;
         }
 
         .left-section {
@@ -741,90 +718,36 @@
     <!-- Speed Lines -->
     <div class="speed-lines" id="speedLines"></div>
 
-    <!-- Container -->
+    <!-- Container with Form at Bottom -->
     <div class="container">
-        <!-- Racing Track Shape -->
-        <div class="track-shape">
-            <!-- Ferrari Logo -->
-            <div style="position: absolute; top: 15px; left: 15px; background: #FFD700; width: 35px; height: 45px; border-radius: 5px; display: flex; align-items: center; justify-content: center; z-index: 10;">
-                <div style="color: #000; font-size: 22px; font-weight: bold;">🐴</div>
-            </div>
-            
-            <!-- Checkered Flags -->
-            <div style="position: absolute; top: 20px; left: 60px; font-size: 24px; z-index: 10;">🏁</div>
-            <div style="position: absolute; top: 20px; right: 60px; font-size: 24px; z-index: 10;">🏁</div>
-            
-            <!-- Top Section -->
-            <div style="text-align: center; margin-bottom: 20px; position: relative; z-index: 5;">
-                <div class="start-engine">START YOUR ENGINE</div>
-                <div class="birthday-name">RIVANSH'S</div>
-                <div class="turning-age">IS TURNING</div>
-                <div class="age-number">1</div>
-            </div>
-
-            <!-- Main Content -->
-            <div style="display: flex; justify-content: space-between; align-items: center; position: relative; min-height: 200px; z-index: 5;">
-                <!-- Left Section - Date/Time -->
-                <div style="flex: 1; text-align: left; padding-left: 20px;">
-                    <div class="date-info">
-                        <div class="saturday">Saturday</div>
-                        <div class="month">MARCH</div>
-                        <div class="day">26</div>
-                        <div class="time">2:00 PM - 4:00 PM</div>
-                    </div>
+        <h2 style="color: #FFD700; text-align: center; margin-bottom: 20px; font-size: 1.5rem;">
+            🏁 RSVP for Rivansh's Birthday Race! 🏁
+        </h2>
+        
+        <form id="rsvpForm" style="background: rgba(0,0,0,0.6); padding: 20px; border-radius: 10px; border: 2px solid #FFD700;">
+            <div style="display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap;">
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    placeholder="Enter your name"
+                    required
+                    style="padding: 10px 15px; border: 2px solid #FFD700; border-radius: 5px; background: rgba(0,0,0,0.7); color: #FFFFFF; font-family: 'Bungee', cursive; font-size: 1rem; width: 200px;"
+                >
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="rsvp-btn rsvp-yes" data-rsvp="yes" style="padding: 10px 20px; border: none; border-radius: 5px; background: #00C851; color: white; font-family: 'Bungee', cursive; cursor: pointer; font-size: 1rem;">
+                        YES - I'll be there!
+                    </button>
+                    <button type="button" class="rsvp-btn rsvp-no" data-rsvp="no" style="padding: 10px 20px; border: none; border-radius: 5px; background: #ff4444; color: white; font-family: 'Bungee', cursive; cursor: pointer; font-size: 1rem;">
+                        NO - Can't make it
+                    </button>
                 </div>
-
-                <!-- Center Section - Car -->
-                <div style="flex: 1; text-align: center; position: relative;">
-                    <div style="font-size: 100px; color: #FF0000; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); position: relative; z-index: 5;">
-                        🏎️
-                    </div>
-                </div>
-
-                <!-- Right Section - Location -->
-                <div style="flex: 1; text-align: right; padding-right: 20px;">
-                    <div class="location-info">
-                        <div class="venue-name">Wesley Chapel District Park</div>
-                        <div class="address">2727 Boyette Rd Wesley Chapel, FL 33544</div>
-                        <div class="rsvp-text">RSVP</div>
-                        <div class="contact">To My Mom 123-123-123</div>
-                    </div>
-                </div>
+                <button type="submit" style="padding: 10px 30px; border: none; border-radius: 5px; background: #FF0000; color: white; font-family: 'Bungee', cursive; cursor: pointer; font-size: 1rem;">
+                    Submit RSVP
+                </button>
             </div>
-
-            <!-- Bottom Section - Form -->
-            <div style="margin-top: 20px; position: relative; z-index: 5;">
-                <form id="rsvpForm" style="background: transparent; padding: 10px; border-radius: 5px;">
-                    <div style="display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap;">
-                        <input 
-                            type="text" 
-                            id="name" 
-                            name="name" 
-                            placeholder="Enter your name"
-                            required
-                            style="padding: 8px 12px; border: 2px solid #FFD700; border-radius: 3px; background: rgba(0,0,0,0.5); color: #FFFFFF; font-family: 'Bungee', cursive; font-size: 0.9rem; width: 180px;"
-                        >
-                        <div style="display: flex; gap: 8px;">
-                            <button type="button" class="rsvp-btn rsvp-yes" data-rsvp="yes" style="padding: 8px 15px; border: none; border-radius: 3px; background: #00C851; color: white; font-family: 'Bungee', cursive; cursor: pointer; font-size: 0.8rem;">
-                                YES
-                            </button>
-                            <button type="button" class="rsvp-btn rsvp-no" data-rsvp="no" style="padding: 8px 15px; border: none; border-radius: 3px; background: #ff4444; color: white; font-family: 'Bungee', cursive; cursor: pointer; font-size: 0.8rem;">
-                                NO
-                            </button>
-                        </div>
-                        <button type="submit" style="padding: 8px 20px; border: none; border-radius: 3px; background: #FF0000; color: white; font-family: 'Bungee', cursive; cursor: pointer; font-size: 0.8rem;">
-                            Submit
-                        </button>
-                    </div>
-                </form>
-                <div id="messageContainer"></div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div style="text-align: center; margin-top: 10px; color: #FFFFFF; font-size: 0.7rem;">
-            DESIGN BY RIVANSH'S BIRTHDAY TEAM
-        </div>
+        </form>
+        <div id="messageContainer"></div>
     </div>
 
     <script>
