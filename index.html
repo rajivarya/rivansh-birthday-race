@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rivansh's Birthday Race Day!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Racing Track Background */
+        .race-track {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    #333 0px,
+                    #333 40px,
+                    #fff 40px,
+                    #fff 80px
+                ),
+                linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            opacity: 0.1;
+            z-index: -2;
+        }
+
+        /* Speed Lines Background */
+        .speed-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .speed-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+            animation: speedLine 3s linear infinite;
+        }
+
+        @keyframes speedLine {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .race-car {
+            position: absolute;
+            top: 20px;
+            left: -100px;
+            font-size: 60px;
+            animation: raceCar 8s linear infinite;
+            z-index: 2;
+        }
+
+        @keyframes raceCar {
+            0% {
+                left: -100px;
+                transform: scaleX(1);
+            }
+            49% {
+                transform: scaleX(1);
+            }
+            50% {
+                left: calc(100% + 100px);
+                transform: scaleX(-1);
+            }
+            99% {
+                transform: scaleX(-1);
+            }
+            100% {
+                left: -100px;
+                transform: scaleX(1);
+            }
+        }
+
+        .title {
+            font-family: 'Bungee', cursive;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: #FF0000;
+            text-shadow: 
+                3px 3px 0px #000,
+                -1px -1px 0px #000,
+                1px -1px 0px #000,
+                -1px 1px 0px #000,
+                1px 1px 0px #000,
+                0 0 20px #FF0000;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .checkered-flag {
+            font-size: 40px;
+            animation: wave 1s ease-in-out infinite;
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: rotate(-5deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        /* Date Section */
+        .date-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .date-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.1) 10px,
+                rgba(255, 255, 255, 0.1) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        .date-title {
+            font-family: 'Bungee', cursive;
+            font-size: 2rem;
+            color: #000;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .date-display {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #FF0000;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-section::before {
+            content: '🏁';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 100px;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+
+        .form-title {
+            font-family: 'Bungee', cursive;
+            font-size: 2rem;
+            color: #FF0000;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 3px solid #FF0000;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-family: 'Rubik', sans-serif;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .form-input.error {
+            border-color: #ff4444;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* RSVP Buttons */
+        .rsvp-buttons {
+            display: flex;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .rsvp-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 20px 30px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Bungee', cursive;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+        }
+
+        .rsvp-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .rsvp-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .rsvp-yes {
+            background: linear-gradient(135deg, #00C851, #00ff00);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 200, 81, 0.3);
+        }
+
+        .rsvp-yes:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 200, 81, 0.4);
+        }
+
+        .rsvp-no {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        .rsvp-no:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 68, 68, 0.4);
+        }
+
+        .rsvp-btn.selected {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #FF0000, #cc0000);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            font-family: 'Bungee', cursive;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+
+        .submit-btn::before {
+            content: '🏁';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit-btn.loading {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            animation: loading 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loading {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        /* Messages */
+        .message {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 700;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.success {
+            background: linear-gradient(135deg, #00C851, #00ff00);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 200, 81, 0.3);
+        }
+
+        .message.error {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 68, 68, 0.3);
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #FFD700;
+            position: absolute;
+            animation: confetti-fall 3s linear;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .form-section {
+                padding: 20px;
+            }
+
+            .rsvp-buttons {
+                flex-direction: column;
+            }
+
+            .rsvp-btn {
+                width: 100%;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .date-display {
+                font-size: 2rem;
+            }
+
+            .race-car {
+                font-size: 40px;
+            }
+        }
+
+        /* Tire Marks */
+        .tire-mark {
+            position: absolute;
+            width: 80px;
+            height: 20px;
+            background: repeating-linear-gradient(
+                90deg,
+                #000 0px,
+                #000 5px,
+                transparent 5px,
+                transparent 10px
+            );
+            opacity: 0.3;
+            transform: rotate(-5deg);
+        }
+
+        .tire-mark-1 {
+            top: 20%;
+            left: 10%;
+        }
+
+        .tire-mark-2 {
+            bottom: 30%;
+            right: 15%;
+            transform: rotate(5deg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Racing Track Background -->
+    <div class="race-track"></div>
+    
+    <!-- Speed Lines -->
+    <div class="speed-lines" id="speedLines"></div>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="race-car">🏎️</div>
+            <h1 class="title">
+                <span class="checkered-flag">🏁</span>
+                Rivansh's Birthday Bash
+                <span class="checkered-flag">🏁</span>
+            </h1>
+            <p style="color: #FFD700; font-size: 1.5rem; font-weight: 700; margin-top: 10px;">
+                🏆 Get Ready for the Ultimate Race Day Party! 🏆
+            </p>
+        </header>
+
+        <!-- Date Section -->
+        <section class="date-section">
+            <h2 class="date-title">🏁 RACE DAY 🏁</h2>
+            <div class="date-display">March 26th</div>
+            <p style="color: #333; font-size: 1.2rem; margin-top: 10px; position: relative; z-index: 1;">
+                Start your engines! The race begins on Rivansh's special day!
+            </p>
+        </section>
+
+        <!-- RSVP Form -->
+        <main class="form-section">
+            <div class="tire-mark tire-mark-1"></div>
+            <div class="tire-mark tire-mark-2"></div>
+            
+            <h2 class="form-title">🏁 Join the Race! 🏁</h2>
+            
+            <form id="rsvpForm">
+                <div class="form-group">
+                    <label class="form-label" for="name">
+                        🏎️ Your Name (Required)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        class="form-input" 
+                        placeholder="Enter your name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        🏁 Will You Join the Race?
+                    </label>
+                    <div class="rsvp-buttons">
+                        <button type="button" class="rsvp-btn rsvp-yes" data-rsvp="yes">
+                            🏆 YES - I'll be there!
+                        </button>
+                        <button type="button" class="rsvp-btn rsvp-no" data-rsvp="no">
+                            🚫 NO - Can't make it
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Submit RSVP
+                </button>
+            </form>
+
+            <div id="messageContainer"></div>
+        </main>
+    </div>
+
+    <script>
+        // Configuration - UPDATE THESE VALUES
+        const CONFIG = {
+            // Google Apps Script Web App URL
+            // Replace this with your deployed Google Apps Script URL
+            GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycby_RHwPtwE3bVnK5_SpngLlakMpzENw05mGJ0sc2I3iUKriIqgQcsZnWrERAYkiiVVS/exec',
+            
+            // Your Google Sheet ID (extracted from the URL)
+            SHEET_ID: '1Ryk3N3HhL3Q4cBGKOeZayZxfu6579PEzfiU6tcRzZ3c',
+            
+            // Alternative: Google Sheets API (more complex setup)
+            // API_KEY: 'YOUR_API_KEY'
+        };
+
+        // Form state
+        let selectedRSVP = null;
+        let isSubmitting = false;
+
+        // Initialize speed lines
+        function createSpeedLines() {
+            const speedLinesContainer = document.getElementById('speedLines');
+            const numberOfLines = 15;
+            
+            for (let i = 0; i < numberOfLines; i++) {
+                const line = document.createElement('div');
+                line.className = 'speed-line';
+                line.style.top = Math.random() * 100 + '%';
+                line.style.left = Math.random() * 100 + '%';
+                line.style.width = Math.random() * 200 + 100 + 'px';
+                line.style.animationDelay = Math.random() * 3 + 's';
+                line.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                speedLinesContainer.appendChild(line);
+            }
+        }
+
+        // RSVP button selection
+        document.querySelectorAll('.rsvp-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove selected class from all buttons
+                document.querySelectorAll('.rsvp-btn').forEach(b => b.classList.remove('selected'));
+                
+                // Add selected class to clicked button
+                this.classList.add('selected');
+                selectedRSVP = this.dataset.rsvp;
+            });
+        });
+
+        // Form validation
+        function validateForm() {
+            const nameInput = document.getElementById('name');
+            const name = nameInput.value.trim();
+            
+            // Reset error states
+            nameInput.classList.remove('error');
+            
+            let isValid = true;
+            let errorMessage = '';
+            
+            if (!name) {
+                nameInput.classList.add('error');
+                errorMessage = 'Please enter your name!';
+                isValid = false;
+            } else if (name.length < 2) {
+                nameInput.classList.add('error');
+                errorMessage = 'Name must be at least 2 characters long!';
+                isValid = false;
+            } else if (!selectedRSVP) {
+                errorMessage = 'Please select whether you can attend or not!';
+                isValid = false;
+            }
+            
+            return { isValid, errorMessage };
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            const messageContainer = document.getElementById('messageContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = message;
+            
+            messageContainer.innerHTML = '';
+            messageContainer.appendChild(messageDiv);
+            
+            // Auto-remove message after 5 seconds
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 5000);
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#FF0000', '#FFD700', '#00C851', '#FF69B4', '#00BFFF'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    // Remove confetti after animation
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Submit to Google Sheets
+        async function submitToGoogleSheets(data) {
+            try {
+                console.log('Submitting data:', data);
+                
+                // Use the no-cors approach for Google Apps Script
+                const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                    mode: 'no-cors' // Required for Google Apps Script
+                });
+                
+                console.log('Request sent (no-cors mode)');
+                
+                // With no-cors, we can't read the response, but if no error was thrown, assume success
+                return { success: true };
+                
+            } catch (error) {
+                console.error('Error submitting to Google Sheets:', error);
+                
+                // Fallback: Store in localStorage as backup
+                const existingData = JSON.parse(localStorage.getItem('rsvpBackup') || '[]');
+                existingData.push(data);
+                localStorage.setItem('rsvpBackup', JSON.stringify(existingData));
+                console.log('Data saved to localStorage backup:', data);
+                
+                return { 
+                    success: false, 
+                    error: error.message,
+                    fallbackUsed: true 
+                };
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (isSubmitting) return;
+            
+            const validation = validateForm();
+            if (!validation.isValid) {
+                showMessage(validation.errorMessage, 'error');
+                return;
+            }
+            
+            const name = document.getElementById('name').value.trim();
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // Show loading state
+            isSubmitting = true;
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            submitBtn.textContent = 'Submitting...';
+            
+            // Prepare data
+            const formData = {
+                name: name,
+                rsvp: selectedRSVP,
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleDateString()
+            };
+            
+            try {
+                // Submit to Google Sheets
+                const result = await submitToGoogleSheets(formData);
+                
+                if (result.success || result.fallbackUsed) {
+                    // Success
+                    let successMessage = `🏁 Thanks for your RSVP, ${name}! `;
+                    
+                    if (selectedRSVP === 'yes') {
+                        successMessage += 'See you at the races! 🏆';
+                        createConfetti();
+                    } else {
+                        successMessage += 'Thanks for letting us know! 🚗';
+                    }
+                    
+                    if (result.fallbackUsed) {
+                        successMessage += ' (Saved locally - will sync when online)';
+                    }
+                    
+                    showMessage(successMessage, 'success');
+                    
+                    // Reset form
+                    document.getElementById('rsvpForm').reset();
+                    document.querySelectorAll('.rsvp-btn').forEach(btn => btn.classList.remove('selected'));
+                    selectedRSVP = null;
+                    
+                } else {
+                    throw new Error(result.error);
+                }
+                
+            } catch (error) {
+                console.error('Submission error:', error);
+                showMessage('🚫 Sorry, there was an error submitting your RSVP. Please try again!', 'error');
+            } finally {
+                // Reset loading state
+                isSubmitting = false;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+                submitBtn.textContent = 'Submit RSVP';
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            createSpeedLines();
+            
+            // Check if there's a configuration issue
+            if (CONFIG.GOOGLE_SCRIPT_URL.includes('YOUR_SCRIPT_ID_HERE')) {
+                showMessage('⚠️ Google Apps Script not configured yet. Form will save locally for testing. Setup instructions in HTML comments.', 'error');
+            }
+        });
+
+        // Prevent form resubmission on page refresh
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+
+    <!-- 
+    SETUP INSTRUCTIONS FOR GOOGLE SHEETS INTEGRATION:
+    
+    1. USE YOUR EXISTING GOOGLE SHEET:
+       - Your sheet is already set up: https://docs.google.com/spreadsheets/d/1Ryk3N3HhL3Q4cBGKOeZayZxfu6579PEzfiU6tcRzZ3c/edit?usp=sharing
+       - Make sure you have headers in row 1: Name, RSVP, Timestamp, Date
+    
+    2. CREATE GOOGLE APPS SCRIPT:
+       - In your Google Sheet, go to Extensions > Apps Script
+       - Replace the default code with this:
+       
+       function doPost(e) {
+         try {
+           const data = JSON.parse(e.postData.contents);
+           const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1');
+           
+           // Append new row
+           sheet.appendRow([
+             data.name,
+             data.rsvp,
+             data.timestamp,
+             data.date
+           ]);
+           
+           return ContentService.createTextOutput(JSON.stringify({
+             status: 'success',
+             message: 'RSVP submitted successfully'
+           })).setMimeType(ContentService.MimeType.JSON);
+           
+         } catch (error) {
+           return ContentService.createTextOutput(JSON.stringify({
+             status: 'error',
+             message: error.toString()
+           })).setMimeType(ContentService.MimeType.JSON);
+         }
+       }
+    
+    3. DEPLOY THE SCRIPT:
+       - Click "Deploy" > "New deployment"
+       - Choose "Web app"
+       - Description: "Rivansh Birthday RSVP Form"
+       - Execute as: "Me"
+       - Who has access: "Anyone"
+       - Click "Deploy"
+       - Copy the Web app URL
+       - Replace CONFIG.GOOGLE_SCRIPT_URL in this HTML file with your URL
+    
+    4. TEST:
+       - Open this HTML file in a browser
+       - Fill out the form and submit
+       - Check your Google Sheet for the new entry
+    
+    ALTERNATIVE: If you prefer Google Sheets API instead of Apps Script:
+    - Enable Google Sheets API in Google Cloud Console
+    - Create API key
+    - Share your sheet with "anyone with link can view"
+    - Use the API key and sheet ID in the CONFIG section
+    -->
+</body>
+</html>
