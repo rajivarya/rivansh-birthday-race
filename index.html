@@ -126,14 +126,18 @@
             position: relative;
         }
 
-        /* Event Info Cards - Smaller Size */
+        /* Event Info Cards - Positioned at Bottom */
         .event-info {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin-top: 40px;
-            width: 100%;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
             max-width: 600px;
+            z-index: 15;
         }
 
         .info-card {
@@ -196,7 +200,7 @@
         /* Form Container - Transparent Overlay */
         .form-overlay {
             position: fixed;
-            top: 40%;
+            top: 35%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0,0,0,0.7);
@@ -1079,8 +1083,9 @@
             <div id="messageContainer"></div>
         </div>
     </div>
+    </main>
 
-    <!-- Event Information Cards - Below Form -->
+    <!-- Event Information Cards - Fixed at Bottom -->
     <div class="event-info">
         <div class="info-card">
             <div class="info-icon">📅</div>
@@ -1102,7 +1107,7 @@
         </div>
         
         <div class="info-card">
-            <div class="info-icon">�</div>
+            <div class="info-icon">📍</div>
             <h3 class="info-title">Location</h3>
             <div class="info-content">
                 <strong>Wesley Chapel District Park</strong><br>
@@ -1113,7 +1118,6 @@
             </div>
         </div>
     </div>
-    </main>
 
     <!-- Footer -->
     <footer class="footer">
