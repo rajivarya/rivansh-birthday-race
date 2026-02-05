@@ -126,23 +126,23 @@
             position: relative;
         }
 
-        /* Event Info Cards */
+        /* Event Info Cards - Smaller Size */
         .event-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
             width: 100%;
-            max-width: 1200px;
+            max-width: 600px;
         }
 
         .info-card {
             background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(30,30,30,0.9));
             border: 2px solid #FFD700;
-            border-radius: 15px;
-            padding: 30px;
+            border-radius: 10px;
+            padding: 20px;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -176,21 +176,21 @@
         }
 
         .info-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
 
         .info-title {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #FFD700;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 700;
         }
 
         .info-content {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             color: #FFFFFF;
-            line-height: 1.6;
+            line-height: 1.4;
         }
 
         /* Form Container - Transparent Overlay */
@@ -1037,38 +1037,6 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Event Information Cards -->
-        <div class="event-info">
-            <div class="info-card">
-                <div class="info-icon">📅</div>
-                <h3 class="info-title">Race Day</h3>
-                <div class="info-content">
-                    <strong>Saturday, March 26th</strong><br>
-                    2:00 PM - 4:00 PM
-                </div>
-            </div>
-            
-            <div class="info-card">
-                <div class="info-icon">🏁</div>
-                <h3 class="info-title">Race Track</h3>
-                <div class="info-content">
-                    <strong>Wesley Chapel District Park</strong><br>
-                    2727 Boyette Rd<br>
-                    Wesley Chapel, FL 33544
-                </div>
-            </div>
-            
-            <div class="info-card">
-                <div class="info-icon">📞</div>
-                <h3 class="info-title">RSVP</h3>
-                <div class="info-content">
-                    <strong>Contact:</strong><br>
-                    To My Mom<br>
-                    123-123-123
-                </div>
-            </div>
-        </div>
-
         <!-- Form Overlay -->
     <div class="form-overlay">
         <div class="form-container">
@@ -1110,6 +1078,39 @@
             
             <div id="messageContainer"></div>
         </div>
+    </div>
+
+    <!-- Event Information Cards - Below Form -->
+    <div class="event-info">
+        <div class="info-card">
+            <div class="info-icon">📅</div>
+            <h3 class="info-title">Race Day</h3>
+            <div class="info-content">
+                <strong>Saturday, March 26th</strong><br>
+                2:00 PM - 4:00 PM
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <div class="info-icon">🏁</div>
+            <h3 class="info-title">Race Track</h3>
+            <div class="info-content">
+                <strong>Wesley Chapel District Park</strong><br>
+                2727 Boyette Rd<br>
+                Wesley Chapel, FL 33544
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <div class="info-icon">📞</div>
+            <h3 class="info-title">RSVP</h3>
+            <div class="info-content">
+                <strong>Contact:</strong><br>
+                To My Mom<br>
+                123-123-123
+            </div>
+        </div>
+    </div>
     </main>
 
     <!-- Footer -->
