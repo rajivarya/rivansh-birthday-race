@@ -16,14 +16,14 @@
             font-family: 'Bungee', cursive;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+            background: url('ferrari.png') no-repeat center center fixed;
+            background-size: cover;
             color: #FFFFFF;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            justify-content: space-between;
             position: relative;
-            overflow-x: hidden;
         }
 
         /* Racing Track Background */
@@ -193,33 +193,28 @@
             line-height: 1.6;
         }
 
-        /* Form Container */
-        .form-container {
-            background: linear-gradient(135deg, rgba(0,0,0,0.95), rgba(20,20,20,0.95));
-            border: 3px solid #FFD700;
-            border-radius: 20px;
+        /* Form Container - Transparent Overlay */
+        .form-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.7);
             padding: 40px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border-radius: 20px;
+            border: 3px solid #FFD700;
+            box-shadow: 0 15px 40px rgba(255,215,0,0.5);
             max-width: 600px;
-            width: 100%;
+            width: 90%;
+            z-index: 20;
+            backdrop-filter: blur(5px);
+        }
+
+        .form-container {
+            background: transparent;
+            border: none;
+            padding: 0;
             position: relative;
-            overflow: hidden;
-        }
-
-        .form-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #FFD700, #FF0000, #FFD700);
-            animation: borderGlow 2s ease-in-out infinite;
-        }
-
-        @keyframes borderGlow {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
         }
 
         .form-title {
@@ -247,10 +242,10 @@
             padding: 15px;
             border: 2px solid #FFD700;
             border-radius: 10px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.8);
             color: #FFFFFF;
             font-family: 'Bungee', cursive;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             transition: all 0.3s ease;
         }
 
@@ -273,7 +268,7 @@
             border: none;
             border-radius: 10px;
             font-family: 'Bungee', cursive;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -1074,7 +1069,8 @@
             </div>
         </div>
 
-        <!-- RSVP Form -->
+        <!-- Form Overlay -->
+    <div class="form-overlay">
         <div class="form-container">
             <h2 class="form-title">🏎️ Join the Race! 🏎️</h2>
             
@@ -1095,7 +1091,7 @@
 
                 <div class="form-group">
                     <label class="form-label">
-                        � Will You Join the Race?
+                        🏁 Will You Join the Race?
                     </label>
                     <div class="rsvp-buttons">
                         <button type="button" class="rsvp-btn rsvp-yes" data-rsvp="yes">
