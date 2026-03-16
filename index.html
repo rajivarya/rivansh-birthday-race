@@ -1343,7 +1343,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="submit-btn">
+                    <button type="submit" id="submitBtn" class="submit-btn">
                         🏁 Submit RSVP 🏁
                     </button>
                 </form>
@@ -1578,7 +1578,14 @@
             }
             
             const name = document.getElementById('name').value.trim();
-            const submitBtn = document.getElementById('submitBtn'); // Fixed selector
+            const submitBtn = document.getElementById('submitBtn'); // Now this will work
+            
+            // Check if button exists before trying to modify it
+            if (!submitBtn) {
+                console.error('Submit button not found!');
+                showMessage('🚫 Form error: Submit button not found. Please refresh the page.', 'error');
+                return;
+            }
             
             // Show loading state
             isSubmitting = true;
@@ -1658,11 +1665,13 @@
                 console.log('======================');
                 
             } finally {
-                // Reset loading state
-                isSubmitting = false;
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('loading');
-                submitBtn.textContent = '🏁 Submit RSVP 🏁';
+                // Reset loading state - only if button exists
+                if (submitBtn) {
+                    isSubmitting = false;
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                    submitBtn.textContent = '🏁 Submit RSVP 🏁';
+                }
             }
         });
 
