@@ -1578,11 +1578,14 @@
             }
             
             const name = document.getElementById('name').value.trim();
-            const submitBtn = document.getElementById('submitBtn'); // Now this will work
+            // Try multiple ways to find the submit button
+            let submitBtn = document.getElementById('submitBtn') || 
+                           document.querySelector('.submit-btn') ||
+                           document.querySelector('button[type="submit"]');
             
             // Check if button exists before trying to modify it
             if (!submitBtn) {
-                console.error('Submit button not found!');
+                console.error('Submit button not found! Available buttons:', document.querySelectorAll('button'));
                 showMessage('🚫 Form error: Submit button not found. Please refresh the page.', 'error');
                 return;
             }
