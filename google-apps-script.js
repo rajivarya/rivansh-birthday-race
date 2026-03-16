@@ -49,25 +49,39 @@ function doPost(e) {
     // Auto-resize columns
     sheet.autoResizeColumns(1, 4);
     
-    // Return success response
+    // Return success response with CORS headers
     return ContentService.createTextOutput(JSON.stringify({
       status: 'success',
       message: 'RSVP submitted successfully',
       data: data
-    })).setMimeType(ContentService.MimeType.JSON);
+    }))
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeader('Access-Control-Allow-Origin', '*')
+    .setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     
   } catch (error) {
     // Log the error for debugging
     Logger.log('Error: ' + error.toString());
     Logger.log('Stack: ' + error.stack);
     
-    // Return error response
+    // Return error response with CORS headers
     return ContentService.createTextOutput(JSON.stringify({
       status: 'error',
       message: error.toString(),
       error: error.message
-    })).setMimeType(ContentService.MimeType.JSON);
+    }))
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeader('Access-Control-Allow-Origin', '*')
+    .setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   }
+}
+
+// Add OPTIONS method handler for CORS preflight requests
+function doOptions(e) {
+  return ContentService.createTextOutput('')
+    .setHeader('Access-Control-Allow-Origin', '*')
+    .setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+    .setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
 // Test function - run this to test the script
