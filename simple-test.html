@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .result {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .success {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Google Sheets Connection Test</h1>
+    
+    <h2>Step 1: Test Web App Connection</h2>
+    <button class="test-btn" onclick="testWebApp()">Test Web App</button>
+    <div id="webAppResult" class="result"></div>
+    
+    <h2>Step 2: Test Form Submission</h2>
+    <button class="test-btn" onclick="testFormSubmission()">Test Form Submission</button>
+    <div id="formResult" class="result"></div>
+    
+    <h2>Step 3: Manual Test Data</h2>
+    <button class="test-btn" onclick="createTestData()">Create Test Data</button>
+    <div id="testDataResult" class="result"></div>
+
+    <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzB2gm-PAM-w1vB2fAOICkSnCAQC3TDXhUmiNTnoSjQxA5gXqCDK-tKk4P2SUL7gOg4/exec';
+        
+        async function testWebApp() {
+            const resultDiv = document.getElementById('webAppResult');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        test: true,
+                        message: 'Web app test'
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <strong>✅ Web App Working!</strong><br>
+                        Status: ${response.status}<br>
+                        Response: ${JSON.stringify(result, null, 2)}
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Web App Test Error:', error);
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <strong>❌ Web App Test Failed</strong><br>
+                    Error: ${error.message}<br>
+                    Check console for more details
+                `;
+            }
+        }
+        
+        async function testFormSubmission() {
+            const resultDiv = document.getElementById('formResult');
+            resultDiv.innerHTML = 'Testing form submission...';
+            
+            const testData = {
+                name: 'Test User ' + Math.floor(Math.random() * 1000),
+                rsvp: 'yes',
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleDateString()
+            };
+            
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                console.log('Form submission response:', response);
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <strong>✅ Form Submission Working!</strong><br>
+                        Test Data: ${JSON.stringify(testData, null, 2)}<br>
+                        Response: ${JSON.stringify(result, null, 2)}<br>
+                        <br>
+                        Check your Google Sheet for this test entry!
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Form Submission Error:', error);
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    <strong>❌ Form Submission Failed</strong><br>
+                    Test Data: ${JSON.stringify(testData, null, 2)}<br>
+                    Error: ${error.message}<br>
+                    <br>
+                    Data saved to console for manual entry
+                `;
+                
+                // Save to console for manual entry
+                console.log('=== MANUAL ENTRY REQUIRED ===');
+                console.log('Name:', testData.name);
+                console.log('RSVP:', testData.rsvp);
+                console.log('Timestamp:', testData.timestamp);
+                console.log('Date:', testData.date);
+                console.log('============================');
+            }
+        }
+        
+        function createTestData() {
+            const resultDiv = document.getElementById('testDataResult');
+            
+            const testData = {
+                name: 'Manual Test User ' + Math.floor(Math.random() * 1000),
+                rsvp: 'no',
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleDateString()
+            };
+            
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = `
+                <strong>📝 Manual Test Data Created</strong><br>
+                Copy this data to your Google Sheet:<br><br>
+                <table border="1" style="border-collapse: collapse;">
+                    <tr><th>Name</th><th>RSVP</th><th>Timestamp</th><th>Date</th></tr>
+                    <tr>
+                        <td>${testData.name}</td>
+                        <td>${testData.rsvp}</td>
+                        <td>${testData.timestamp}</td>
+                        <td>${testData.date}</td>
+                    </tr>
+                </table>
+                <br>
+                <strong>Console Output:</strong><br>
+                Check browser console (F12) for this data
+            `;
+            
+            console.log('=== MANUAL TEST DATA ===');
+            console.log('Name:', testData.name);
+            console.log('RSVP:', testData.rsvp);
+            console.log('Timestamp:', testData.timestamp);
+            console.log('Date:', testData.date);
+            console.log('========================');
+        }
+    </script>
+</body>
+</html>
