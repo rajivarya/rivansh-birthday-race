@@ -1578,7 +1578,7 @@
             }
             
             const name = document.getElementById('name').value.trim();
-            const submitBtn = document.querySelector('.submit-btn');
+            const submitBtn = document.getElementById('submitBtn'); // Fixed selector
             
             // Show loading state
             isSubmitting = true;
