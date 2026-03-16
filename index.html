@@ -16,17 +16,22 @@
             font-family: 'Bungee', cursive;
             margin: 0;
             padding: 0;
-            background: url('ferrari.png') no-repeat center center fixed;
-            background-size: cover;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,0,0,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(255,215,0,0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%),
+                url('ferrari.png') no-repeat center center fixed;
+            background-size: cover, cover, cover, cover;
             color: #FFFFFF;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
+            overflow-x: hidden;
         }
 
-        /* Racing Track Background */
+        /* Racing Track Background with Enhanced Effects */
         body::before {
             content: '';
             position: fixed;
@@ -34,13 +39,40 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('ferrari.png') no-repeat center center fixed;
-            background-size: cover;
-            opacity: 0.3;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent 0px,
+                    transparent 40px,
+                    rgba(255,215,0,0.1) 40px,
+                    rgba(255,215,0,0.1) 45px,
+                    transparent 45px,
+                    transparent 85px,
+                    rgba(255,255,255,0.05) 85px,
+                    rgba(255,255,255,0.05) 90px,
+                    transparent 90px,
+                    transparent 130px
+                ),
+                linear-gradient(45deg, 
+                    rgba(255,0,0,0.05) 0%, 
+                    transparent 25%, 
+                    transparent 75%, 
+                    rgba(255,0,0,0.05) 100%
+                );
             z-index: -1;
+            animation: trackMove 20s linear infinite;
         }
 
-        /* Animated Racing Lines */
+        @keyframes trackMove {
+            0% {
+                background-position: 0% 50%, 0% 0%;
+            }
+            100% {
+                background-position: 100% 50%, 100% 100%;
+            }
+        }
+
+        /* Animated Racing Lines with Enhanced Effects */
         .racing-lines {
             position: fixed;
             top: 0;
@@ -53,25 +85,99 @@
 
         .racing-line {
             position: absolute;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #FFD700, transparent);
-            animation: raceLine 3s linear infinite;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255,215,0,0.3) 20%,
+                #FFD700 50%, 
+                rgba(255,215,0,0.3) 80%,
+                transparent 100%
+            );
+            animation: raceLine 2s linear infinite;
+            box-shadow: 0 0 10px rgba(255,215,0,0.5);
         }
 
         @keyframes raceLine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% { 
+                transform: translateX(-100%) scaleY(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% { 
+                transform: translateX(100%) scaleY(1.5);
+                opacity: 0;
+            }
         }
 
-        /* Header Section - Higher Z-index */
+        /* Additional Speed Lines */
+        .speed-line-vertical {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(180deg, 
+                transparent 0%, 
+                rgba(255,0,0,0.3) 50%,
+                transparent 100%
+            );
+            animation: speedLineVertical 3s linear infinite;
+        }
+
+        @keyframes speedLineVertical {
+            0% { 
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Header Section with Enhanced Effects */
         .header {
             text-align: center;
             padding: 40px 20px;
-            background: linear-gradient(135deg, rgba(255,0,0,0.8), rgba(200,0,0,0.8));
+            background: linear-gradient(135deg, 
+                rgba(255,0,0,0.9) 0%, 
+                rgba(200,0,0,0.8) 50%,
+                rgba(255,0,0,0.9) 100%
+            );
             width: 100%;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            box-shadow: 
+                0 4px 20px rgba(0,0,0,0.5),
+                0 0 40px rgba(255,0,0,0.3),
+                inset 0 0 20px rgba(255,215,0,0.1);
             position: relative;
             z-index: 5;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255,215,0,0.2) 50%, 
+                transparent 100%
+            );
+            animation: headerSweep 4s ease-in-out infinite;
+        }
+
+        @keyframes headerSweep {
+            0%, 100% { left: -100%; }
+            50% { left: 100%; }
         }
 
         .header::before,
@@ -96,16 +202,36 @@
         }
 
         .title {
-            font-size: clamp(2rem, 5vw, 4rem);
+            font-size: clamp(2.5rem, 8vw, 5rem);
             color: #FFD700;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
-            margin-bottom: 10px;
-            animation: pulse 2s ease-in-out infinite;
+            text-shadow: 
+                3px 3px 0px #FF0000,
+                6px 6px 0px #000,
+                9px 9px 20px rgba(0,0,0,0.8),
+                0 0 30px rgba(255,215,0,0.5);
+            margin-bottom: 15px;
+            animation: titlePulse 2s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 10;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        @keyframes titlePulse {
+            0% { 
+                transform: scale(1) translateY(0);
+                text-shadow: 
+                    3px 3px 0px #FF0000,
+                    6px 6px 0px #000,
+                    9px 9px 20px rgba(0,0,0,0.8),
+                    0 0 30px rgba(255,215,0,0.5);
+            }
+            100% { 
+                transform: scale(1.05) translateY(-5px);
+                text-shadow: 
+                    4px 4px 0px #FF0000,
+                    8px 8px 0px #000,
+                    12px 12px 25px rgba(0,0,0,0.9),
+                    0 0 40px rgba(255,215,0,0.7);
+            }
         }
 
         .subtitle {
@@ -126,31 +252,37 @@
             position: relative;
         }
 
-        /* Event Info Cards - Positioned at Bottom with Proper Spacing */
+        /* Enhanced Event Info Cards */
         .event-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
             position: fixed;
-            bottom: 80px;
+            bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
-            max-width: 600px;
+            max-width: 700px;
             z-index: 15;
             padding-bottom: 20px;
         }
 
         .info-card {
-            background: transparent;
-            border: none;
-            border-radius: 10px;
-            padding: 20px;
+            background: 
+                linear-gradient(135deg, rgba(0,0,0,0.8), rgba(30,30,30,0.7)),
+                radial-gradient(circle at top, rgba(255,215,0,0.1), transparent 50%);
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 15px;
+            padding: 25px 20px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-            transition: all 0.3s ease;
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.6),
+                0 0 30px rgba(255,215,0,0.2),
+                inset 0 0 15px rgba(255,215,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(5px);
         }
 
         .info-card::before {
@@ -160,24 +292,26 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,215,0,0.05), transparent);
-            transform: rotate(45deg);
-            transition: all 0.5s ease;
+            background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(255,215,0,0.1) 50%, 
+                transparent 70%
+            );
+            transform: rotate(45deg) translateX(-100%);
+            transition: transform 0.6s ease;
         }
 
         .info-card:hover::before {
-            animation: shimmer 0.5s ease;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            transform: rotate(45deg) translateX(100%);
         }
 
         .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(255,215,0,0.3);
-            border-color: #FF0000;
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 
+                0 15px 40px rgba(255,215,0,0.4),
+                0 0 50px rgba(255,0,0,0.3),
+                inset 0 0 25px rgba(255,215,0,0.1);
+            border-color: #FFD700;
         }
 
         .info-icon {
@@ -202,21 +336,32 @@
             line-height: 1.4;
         }
 
-        /* Form Container - Much Smaller and Better Positioned */
+        /* Enhanced Form Overlay with Better Visual Effects */
         .form-overlay {
             position: fixed;
             top: 30%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.85);
-            padding: 15px;
-            border-radius: 10px;
-            border: none;
-            box-shadow: 0 8px 25px rgba(255,215,0,0.4);
-            max-width: 300px;
-            width: 75%;
+            background: 
+                linear-gradient(135deg, rgba(0,0,0,0.95), rgba(20,20,20,0.9)),
+                radial-gradient(circle at center, rgba(255,0,0,0.1), transparent 70%);
+            padding: 25px;
+            border-radius: 20px;
+            border: 3px solid #FFD700;
+            box-shadow: 
+                0 8px 25px rgba(255,215,0,0.4),
+                0 0 50px rgba(255,0,0,0.3),
+                inset 0 0 20px rgba(255,215,0,0.1);
+            max-width: 350px;
+            width: 85%;
             z-index: 20;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
+            animation: formFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes formFloat {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-10px); }
         }
 
         .form-container {
@@ -327,19 +472,58 @@
             box-shadow: 0 6px 20px rgba(255,0,0,0.4);
         }
 
-        /* Footer */
+        /* Enhanced Footer with Racing Theme */
         .footer {
-            background: rgba(0,0,0,0.8);
-            padding: 20px;
+            background: 
+                linear-gradient(135deg, rgba(0,0,0,0.9), rgba(20,20,20,0.8)),
+                repeating-linear-gradient(
+                    90deg,
+                    #FFD700 0px,
+                    #FFD700 2px,
+                    transparent 2px,
+                    transparent 4px
+                );
+            padding: 25px 20px;
             text-align: center;
             width: 100%;
-            border-top: 2px solid #FFD700;
+            border-top: 3px solid #FFD700;
             z-index: 10;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255,215,0,0.1) 50%, 
+                transparent 100%
+            );
+            animation: footerSweep 6s ease-in-out infinite;
+        }
+
+        @keyframes footerSweep {
+            0%, 100% { left: -100%; }
+            50% { left: 100%; }
         }
 
         .footer-text {
             color: #FFD700;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            position: relative;
+            z-index: 1;
+            animation: footerPulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes footerPulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
         }
 
         /* Checkered Flag Borders */
@@ -466,63 +650,114 @@
             padding: 20px;
         }
 
+        /* Enhanced Racing Cars with More Animations */
         .race-car {
             position: absolute;
             top: 20px;
-            left: -100px;
+            left: -150px;
             font-size: 60px;
-            animation: raceCar 8s linear infinite;
+            animation: raceCar 6s linear infinite;
             z-index: 2;
+            filter: drop-shadow(0 0 20px rgba(255,0,0,0.8));
         }
 
         .race-car-2 {
             position: absolute;
             top: 80px;
-            right: -100px;
+            right: -150px;
             font-size: 50px;
-            animation: raceCarReverse 10s linear infinite;
+            animation: raceCarReverse 8s linear infinite;
             z-index: 2;
+            filter: drop-shadow(0 0 15px rgba(255,215,0,0.8));
+        }
+
+        .race-car-3 {
+            position: absolute;
+            bottom: 150px;
+            left: -120px;
+            font-size: 45px;
+            animation: raceCarDiagonal 10s linear infinite;
+            z-index: 2;
+            filter: drop-shadow(0 0 10px rgba(0,255,0,0.6));
         }
 
         @keyframes raceCar {
             0% {
-                left: -100px;
-                transform: scaleX(1);
+                left: -150px;
+                transform: scaleX(1) rotate(0deg);
+            }
+            20% {
+                transform: scaleX(1) rotate(-2deg);
+            }
+            40% {
+                transform: scaleX(1) rotate(2deg);
             }
             49% {
-                transform: scaleX(1);
+                transform: scaleX(1) rotate(-1deg);
             }
             50% {
-                left: calc(100% + 100px);
-                transform: scaleX(-1);
+                left: calc(100% + 150px);
+                transform: scaleX(-1) rotate(0deg);
             }
             99% {
-                transform: scaleX(-1);
+                transform: scaleX(-1) rotate(1deg);
             }
             100% {
-                left: -100px;
-                transform: scaleX(1);
+                left: -150px;
+                transform: scaleX(1) rotate(0deg);
             }
         }
 
         @keyframes raceCarReverse {
             0% {
-                right: -100px;
-                transform: scaleX(-1);
+                right: -150px;
+                transform: scaleX(-1) rotate(0deg);
+            }
+            25% {
+                transform: scaleX(-1) rotate(3deg);
             }
             49% {
-                transform: scaleX(-1);
+                transform: scaleX(-1) rotate(-2deg);
             }
             50% {
-                right: calc(100% + 100px);
-                transform: scaleX(1);
+                right: calc(100% + 150px);
+                transform: scaleX(1) rotate(0deg);
+            }
+            75% {
+                transform: scaleX(1) rotate(-3deg);
             }
             99% {
-                transform: scaleX(1);
+                transform: scaleX(1) rotate(2deg);
             }
             100% {
-                right: -100px;
-                transform: scaleX(-1);
+                right: -150px;
+                transform: scaleX(-1) rotate(0deg);
+            }
+        }
+
+        @keyframes raceCarDiagonal {
+            0% {
+                left: -120px;
+                bottom: 150px;
+                transform: scaleX(1) rotate(0deg);
+            }
+            25% {
+                bottom: 200px;
+                transform: scaleX(1) rotate(-5deg);
+            }
+            50% {
+                left: 50%;
+                bottom: 250px;
+                transform: scaleX(1) rotate(0deg);
+            }
+            75% {
+                bottom: 300px;
+                transform: scaleX(1) rotate(5deg);
+            }
+            100% {
+                left: calc(100% + 120px);
+                bottom: 350px;
+                transform: scaleX(1) rotate(0deg);
             }
         }
 
@@ -1038,6 +1273,11 @@
     <!-- Animated Racing Lines -->
     <div class="racing-lines" id="racingLines"></div>
 
+    <!-- Additional Racing Cars -->
+    <div class="race-car">🏎️</div>
+    <div class="race-car-2">🏁</div>
+    <div class="race-car-3">🚗</div>
+
     <!-- Header -->
     <header class="header">
         <h1 class="title">🏁 RIVANSH'S BIRTHDAY RACE 🏁</h1>
@@ -1122,15 +1362,25 @@
         // Create animated racing lines
         function createRacingLines() {
             const racingLinesContainer = document.getElementById('racingLines');
-            const numberOfLines = 8;
+            const numberOfLines = 12;
             
             for (let i = 0; i < numberOfLines; i++) {
                 const line = document.createElement('div');
                 line.className = 'racing-line';
                 line.style.top = Math.random() * 100 + '%';
                 line.style.animationDelay = Math.random() * 3 + 's';
-                line.style.animationDuration = (3 + Math.random() * 2) + 's';
+                line.style.animationDuration = (2 + Math.random() * 2) + 's';
                 racingLinesContainer.appendChild(line);
+            }
+
+            // Add vertical speed lines
+            for (let i = 0; i < 6; i++) {
+                const vLine = document.createElement('div');
+                vLine.className = 'speed-line-vertical';
+                vLine.style.left = Math.random() * 100 + '%';
+                vLine.style.animationDelay = Math.random() * 3 + 's';
+                vLine.style.animationDuration = (3 + Math.random() * 2) + 's';
+                racingLinesContainer.appendChild(vLine);
             }
         }
 
@@ -1230,23 +1480,34 @@
             }, 5000);
         }
 
-        // Create confetti effect
+        // Create confetti effect with enhanced visuals
         function createConfetti() {
-            const colors = ['#FF0000', '#FFD700', '#00C851', '#FF69B4', '#00BFFF'];
-            const confettiCount = 50;
+            const colors = ['#FF0000', '#FFD700', '#00C851', '#FF69B4', '#00BFFF', '#FF4500', '#32CD32'];
+            const confettiCount = 75;
+            const shapes = ['🏁', '🏎️', '🏆', '⭐', '✨', '🎉', '🎊'];
             
             for (let i = 0; i < confettiCount; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
                     confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    // Use emoji or color
+                    if (Math.random() > 0.5 && shapes.length > 0) {
+                        confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                        confetti.style.background = 'transparent';
+                        confetti.style.fontSize = Math.random() * 20 + 15 + 'px';
+                    } else {
+                        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    }
+                    
                     confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
                     document.body.appendChild(confetti);
                     
                     // Remove confetti after animation
-                    setTimeout(() => confetti.remove(), 3000);
-                }, i * 30);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 25);
             }
         }
 
@@ -1361,6 +1622,51 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             createSpeedLines();
+            createRacingLines();
+            
+            // Add racing countdown on page load
+            setTimeout(() => {
+                const countdown = ['3', '2', '1', '🏁 GO! 🏁'];
+                let index = 0;
+                
+                const countdownDiv = document.createElement('div');
+                countdownDiv.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    font-family: 'Bungee', cursive;
+                    font-size: 8rem;
+                    color: #FF0000;
+                    text-shadow: 4px 4px 0px #FFD700, 8px 8px 0px #000;
+                    z-index: 10000;
+                    animation: countdownPulse 1s ease-in-out;
+                    pointer-events: none;
+                `;
+                
+                function showCountdown() {
+                    if (index < countdown.length) {
+                        countdownDiv.textContent = countdown[index];
+                        document.body.appendChild(countdownDiv);
+                        
+                        // Add shake effect for GO!
+                        if (index === countdown.length - 1) {
+                            createConfetti();
+                            countdownDiv.style.animation = 'countdownPulse 0.5s ease-in-out, shake 0.5s ease-in-out';
+                        }
+                        
+                        setTimeout(() => {
+                            countdownDiv.remove();
+                            index++;
+                            if (index < countdown.length) {
+                                setTimeout(showCountdown, 500);
+                            }
+                        }, 1000);
+                    }
+                }
+                
+                showCountdown();
+            }, 1000);
             
             // Check if there's a configuration issue
             if (CONFIG.GOOGLE_SCRIPT_URL.includes('YOUR_SCRIPT_ID_HERE')) {
