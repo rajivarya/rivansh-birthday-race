@@ -1511,44 +1511,61 @@
             }
         }
 
-        // Submit to Google Sheets
+        // Submit to Google Sheets with enhanced error handling
         async function submitToGoogleSheets(data) {
             try {
                 console.log('Submitting data:', data);
                 
-                // Use the no-cors approach for Google Apps Script
+                // Try the Google Apps Script first
                 const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(data),
-                    mode: 'no-cors' // Required for Google Apps Script
+                    body: JSON.stringify(data)
                 });
                 
-                console.log('Request sent (no-cors mode)');
+                console.log('Response status:', response.status);
                 
-                // With no-cors, we can't read the response, but if no error was thrown, assume success
-                return { success: true };
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Success response:', result);
+                    return { success: true, result: result };
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
                 
             } catch (error) {
                 console.error('Error submitting to Google Sheets:', error);
                 
                 // Fallback: Store in localStorage as backup
                 const existingData = JSON.parse(localStorage.getItem('rsvpBackup') || '[]');
-                existingData.push(data);
+                existingData.push({
+                    ...data,
+                    backupTime: new Date().toISOString(),
+                    error: error.message
+                });
                 localStorage.setItem('rsvpBackup', JSON.stringify(existingData));
                 console.log('Data saved to localStorage backup:', data);
+                
+                // Also try to show the data in console for manual entry
+                console.log('=== MANUAL ENTRY DATA ===');
+                console.log('Name:', data.name);
+                console.log('RSVP:', data.rsvp);
+                console.log('Timestamp:', data.timestamp);
+                console.log('Date:', data.date);
+                console.log('========================');
                 
                 return { 
                     success: false, 
                     error: error.message,
-                    fallbackUsed: true 
+                    fallbackUsed: true,
+                    data: data
                 };
             }
         }
 
-        // Handle form submission
+        // Handle form submission with enhanced feedback
         document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -1561,13 +1578,13 @@
             }
             
             const name = document.getElementById('name').value.trim();
-            const submitBtn = document.getElementById('submitBtn');
+            const submitBtn = document.querySelector('.submit-btn');
             
             // Show loading state
             isSubmitting = true;
             submitBtn.disabled = true;
             submitBtn.classList.add('loading');
-            submitBtn.textContent = 'Submitting...';
+            submitBtn.textContent = '🏁 Submitting...';
             
             // Prepare data
             const formData = {
@@ -1581,7 +1598,7 @@
                 // Submit to Google Sheets
                 const result = await submitToGoogleSheets(formData);
                 
-                if (result.success || result.fallbackUsed) {
+                if (result.success) {
                     // Success
                     let successMessage = `🏁 Thanks for your RSVP, ${name}! `;
                     
@@ -1592,10 +1609,6 @@
                         successMessage += 'Thanks for letting us know! 🚗';
                     }
                     
-                    if (result.fallbackUsed) {
-                        successMessage += ' (Saved locally - will sync when online)';
-                    }
-                    
                     showMessage(successMessage, 'success');
                     
                     // Reset form
@@ -1603,19 +1616,53 @@
                     document.querySelectorAll('.rsvp-btn').forEach(btn => btn.classList.remove('selected'));
                     selectedRSVP = null;
                     
+                } else if (result.fallbackUsed) {
+                    // Fallback used
+                    let fallbackMessage = `✅ RSVP saved locally, ${name}! `;
+                    
+                    if (selectedRSVP === 'yes') {
+                        fallbackMessage += 'See you at the races! 🏆';
+                        createConfetti();
+                    } else {
+                        fallbackMessage += 'Thanks for letting us know! 🚗';
+                    }
+                    
+                    fallbackMessage += ' (Data will sync when online)';
+                    showMessage(fallbackMessage, 'success');
+                    
+                    // Reset form
+                    document.getElementById('rsvpForm').reset();
+                    document.querySelectorAll('.rsvp-btn').forEach(btn => btn.classList.remove('selected'));
+                    selectedRSVP = null;
+                    
                 } else {
-                    throw new Error(result.error);
+                    throw new Error(result.error || 'Unknown error occurred');
                 }
                 
             } catch (error) {
                 console.error('Submission error:', error);
-                showMessage('🚫 Sorry, there was an error submitting your RSVP. Please try again!', 'error');
+                
+                // Show detailed error message
+                let errorMessage = '🚫 Sorry, there was an error submitting your RSVP.\n\n';
+                errorMessage += `Error: ${error.message}\n\n`;
+                errorMessage += 'Please try again or contact the party organizer.';
+                
+                showMessage(errorMessage, 'error');
+                
+                // Also show console data for manual entry
+                console.log('=== FOR MANUAL ENTRY ===');
+                console.log('Name:', name);
+                console.log('RSVP:', selectedRSVP);
+                console.log('Timestamp:', new Date().toISOString());
+                console.log('Date:', new Date().toLocaleDateString());
+                console.log('======================');
+                
             } finally {
                 // Reset loading state
                 isSubmitting = false;
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('loading');
-                submitBtn.textContent = 'Submit RSVP';
+                submitBtn.textContent = '🏁 Submit RSVP 🏁';
             }
         });
 
